@@ -40,7 +40,7 @@ class TaskTableViewController: UITableViewController {
         for (index, item) in taskhelper.itemsList.enumerated() {
             let current = CFAbsoluteTimeGetCurrent()
             let timePassed = current - item.time
-            if Int(timePassed) > 10 && item.done {
+            if Int(timePassed) > 24*60*60 && item.done {
                 taskhelper.itemsList.remove(at: index)
             }
         }
