@@ -14,10 +14,11 @@ class Task: NSObject {
     
     var taskString: String! = " "
     var done: Bool = false
-    var created: Date!
+    var time: CFAbsoluteTime!
     
     init(taskString: String) {
         self.taskString = taskString
+        self.time = CFAbsoluteTimeGetCurrent()
     }
     
 

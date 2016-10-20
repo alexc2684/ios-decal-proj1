@@ -37,7 +37,13 @@ class TaskTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //taskhelper method to find if in 24 hours
+        for (index, item) in taskhelper.itemsList.enumerated() {
+            let current = CFAbsoluteTimeGetCurrent()
+            let timePassed = current - item.time
+            if Int(timePassed) > 24*60*60 {
+                taskhelper.itemsList.remove(at: index)
+            }
+        }
         return taskhelper.itemsList.count
     }
 
@@ -49,8 +55,7 @@ class TaskTableViewController: UITableViewController {
             let doneTask: NSMutableAttributedString =  NSMutableAttributedString(string: task.taskString)
             doneTask.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, doneTask.length))
             cell.textLabel?.attributedText = doneTask
-            print("Inh ere")
-            //cell.textLabel?.text = task.taskString + " [Complete]"
+            print("In here")
         } else {
             cell.textLabel?.text = task.taskString
         }
@@ -61,7 +66,7 @@ class TaskTableViewController: UITableViewController {
         let curr = taskhelper.itemsList[indexPath.row]
         curr.done = !curr.done
         if curr.done {
-            curr.created = Date()
+            curr.time = CFAbsoluteTimeGetCurrent()
         }
         taskhelper.itemsList[indexPath.row] = curr
         self.tableView.reloadData()
